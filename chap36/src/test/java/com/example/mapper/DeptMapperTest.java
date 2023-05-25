@@ -6,14 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
-//@Transactional()
 public class DeptMapperTest {
 	
 	@Autowired
@@ -34,30 +34,40 @@ public class DeptMapperTest {
 	@Test
 	void selectByDeptno() {
 		var dept = deptMapper.selectByDeptno(10);
-		//System.out.println(dept);
+		System.out.println(dept);
 		assertSame(10, dept.getDeptno());
 		
-		
 		dept = deptMapper.selectByDeptno(90);
+		System.out.println(dept);
 		assertNull(dept);
 	}
 	
 	@Test
-	@Transactional				//auto commit 방지 Test시에는 기본적으로 Rollback 적용
-	//@Rollback(false)			
+	@Transactional
+//	@Rollback(false)
 	void insert() {
 		deptMapper.insert(50, "개발부", "부산");
 		System.out.println(deptMapper.selectByDeptno(50));
-		//throw new RuntimeException();
-		deptMapper.insert(60,"개발2부","강릉");
+		
+		deptMapper.insert(60, "개발2부", null);
 		System.out.println(deptMapper.selectByDeptno(60));
+		
 		try {
-			deptMapper.insert(50,"개발3부","춘천");
+			deptMapper.insert(50, "개발3부", "서울");
 		} catch (DuplicateKeyException e) {
-			// TODO: handle exception
+			System.out.println("50번 부서는 사용할 수 없습니다.");
 		}
 		
-		System.out.println(deptMapper.selectByDeptno(50));
+		try {
+			deptMapper.insert(70, null, null);
+		} catch (DataIntegrityViolationException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
 		
 	}
+	
+
 }
