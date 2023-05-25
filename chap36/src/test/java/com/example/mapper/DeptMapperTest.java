@@ -47,7 +47,7 @@ public class DeptMapperTest {
 	
 	@Test
 	@Transactional
-//	@Rollback(false)
+//	@Rollback(false)   //활성화 할시 Commit
 	void insert() {
 		deptMapper.insert(50, "개발부", "부산");
 		System.out.println(deptMapper.selectByDeptno(50));
