@@ -51,6 +51,7 @@ public interface DeptMapper {
 			""")
 	int update(@Param("deptno")int deptno,@Param("dname")String dname,@Param("loc")String loc);
 
+	
 	@Update("""
 			update dept
 			set dname =  #{d.dname,jdbcType=VARCHAR},

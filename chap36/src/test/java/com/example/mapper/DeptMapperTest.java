@@ -141,6 +141,7 @@ public class DeptMapperTest {
 		int cnt = deptMapper.updateDept(dept);
 		assertThat(cnt).isEqualTo(1);
 		
+		
 		dept = new Dept(60,"zzz","aaa");
 		cnt=deptMapper.updateDept(dept);
 		assertThat(cnt).isEqualTo(0);
