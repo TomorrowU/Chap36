@@ -156,6 +156,7 @@ public class DeptMapperTest {
 		int cnt = deptMapper.delete(90);
 		assertThat(cnt).isEqualTo(0);
 	
+		
 		cnt = deptMapper.delete(40);
 		assertThat(cnt).isEqualTo(1);
 		
