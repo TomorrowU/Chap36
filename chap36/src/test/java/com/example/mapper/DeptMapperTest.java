@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import org.yaml.snakeyaml.constructor.DuplicateKeyException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -50,7 +51,13 @@ public class DeptMapperTest {
 		//throw new RuntimeException();
 		deptMapper.insert(60,"개발2부","강릉");
 		System.out.println(deptMapper.selectByDeptno(60));
-		deptMapper.insert(50,"개발3부","춘천");
+		try {
+			deptMapper.insert(50,"개발3부","춘천");
+		} catch (DuplicateKeyException e) {
+			// TODO: handle exception
+		}
+		
+		System.out.println(deptMapper.selectByDeptno(50));
 		
 	}
 }
