@@ -19,7 +19,7 @@ public interface DeptMapper {
 	@Select("select * from dept where deptno=#{deptno}")
 	Dept selectByDeptno(@Param("deptno")int deptno);
 	
-	@Insert("insert into dept values(#{deptno},#{dname},#{loc})")
+	@Insert("insert into dept values(#{deptno},#{dname, jdbcType=VARCHAR},#{loc, jdbcType=VARCHAR})")
 	int insert(@Param("deptno") int deptno, @Param("dname") String dname, @Param("loc") String loc);
 
 	@Select("select * from dept where deptno = #{deptno}")

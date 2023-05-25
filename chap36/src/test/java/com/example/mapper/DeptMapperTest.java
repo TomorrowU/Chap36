@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,11 +42,15 @@ public class DeptMapperTest {
 	}
 	
 	@Test
-	//@Transactional				//auto commit 방지
+	@Transactional				//auto commit 방지 Test시에는 기본적으로 Rollback 적용
+	//@Rollback(false)			
 	void insert() {
-		
 		deptMapper.insert(50, "개발부", "부산");
 		System.out.println(deptMapper.selectByDeptno(50));
 		//throw new RuntimeException();
+		deptMapper.insert(60,"개발2부","강릉");
+		System.out.println(deptMapper.selectByDeptno(60));
+		deptMapper.insert(50,"개발3부","춘천");
+		
 	}
 }
