@@ -154,8 +154,8 @@ public class DeptMapperTest {
 	@Test
 	@Transactional
 	void delete() throws IOException {
-		int cnt = deptMapper.delete(90);
-		assertThat(cnt).isEqualTo(0);
+		int cnt = deptMapper.delete(1001);
+		assertThat(cnt).isEqualTo(1);
 	
 		
 		cnt = deptMapper.delete(40);

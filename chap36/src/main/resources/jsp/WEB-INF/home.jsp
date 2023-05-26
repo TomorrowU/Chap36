@@ -21,7 +21,8 @@
 <hr>
 name = <sec:authentication property="name"/>
 
-
+<hr>
+${list}
 
 
 </body>
