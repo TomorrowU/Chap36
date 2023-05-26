@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Dept;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @SpringBootTest
 public class CityMapperTest {
@@ -31,6 +33,7 @@ public class CityMapperTest {
 	void selectAll() throws IOException {
 		var list = cityMapper.selectAll();
 		System.out.println(list);
+		assertThat(list.size()).isEqualTo(4079);
 		objectMapper.createGenerator(System.out)
 					.useDefaultPrettyPrinter()
 					.writeObject(list);
@@ -42,7 +45,59 @@ public class CityMapperTest {
 		System.out.println(count);
 	}
 	
-//	
+	@Test
+	void selectById() {
+		var city=cityMapper.selectById(1);
+		assertEquals(1,city.getId());
+		System.out.println(city);
+	}
+	
+	@Test
+	void selectByIdWithName() {
+		var city = cityMapper.selectByIdWithName(1);
+		assertEquals("Kabul",city.getName());
+		System.out.println(city);
+		
+	}
+	
+	@Test
+	void selectByCountryCode() throws IOException {
+		var list = cityMapper.selectByCountryCode("USA");
+		objectMapper.createGenerator(System.out)
+		.useDefaultPrettyPrinter()
+		.writeObject(list);
+	}
+	
+	@Test
+	void selectPage() throws IOException {
+		PageHelper.startPage(1,20);
+		var list=cityMapper.selectPage();
+		System.out.println(list.size());
+		assertThat(list.size()).isEqualTo(20);
+		
+		var paging=PageInfo.of(list);
+		System.out.println(paging);
+		paging.getTotal();
+		paging.getList();
+		paging.getPageNum();
+		paging.getSize();
+		paging.getStartRow();
+		paging.getEndRow();
+		paging.getPages();
+		paging.getPrePage();
+		paging.getNextPage();
+		paging.isIsFirstPage();
+		paging.isIsLastPage();
+		paging.isHasNextPage();
+		paging.isHasPreviousPage();
+		
+		
+		
+		objectMapper.createGenerator(System.out)
+		.useDefaultPrettyPrinter()
+		.writeObject(paging);
+	}
+	
 //	@Test
 //	void selectByDeptno() {
 //		var dept = deptMapper.selectByDeptno(10);

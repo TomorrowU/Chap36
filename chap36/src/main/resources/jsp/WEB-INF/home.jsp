@@ -23,6 +23,14 @@ name = <sec:authentication property="name"/>
 
 <hr>
 ${list}
+<br>
+
+<form action="homeController" method="post">
+	<input type="text">
+	<input type="submit">
+</form>
+
+
 
 
 </body>

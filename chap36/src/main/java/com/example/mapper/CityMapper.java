@@ -6,27 +6,62 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.model.City;
 import com.example.model.Dept;
+import com.github.pagehelper.Page;
 
 @Mapper
 public interface CityMapper {
-	
+	@Results({
+		@Result(property = "countryCode", column = "country_code")
+		//City 에 있는 property는 countryCode 고 table에 있는거는 country_code 이거다.
+	})
 	@Select("select * from city")
 	List<City> selectAll();
+	
+	@Results({
+		@Result(property = "countryCode", column = "country_code")
+	})
+	@Select("select * from city order by id")
+	Page<City> selectPage();
 	
 	@Select("select count(*) from city")
 	int countAll();
 	
+	@Results({
+		@Result(property = "countryCode", column = "country_code")
+	})
 	@Select("""
 			select *
-			  from dept
-			 where deptno = #{deptno} 
+			  from city
+			 where id = #{id} 
 			""")
-	Dept selectByDeptno(@Param("deptno") int deptno);
+	City selectById(@Param("id") int id);
+	
+	@Results({
+		@Result(property = "countryCode", column = "country_code")
+	})
+	@Select("""
+			select id,name from city
+			 where id = #{id} 
+			""")
+	City selectByIdWithName(@Param("id") int id);
+	
+	
+	
+	@Results({
+		@Result(property = "countryCode", column = "country_code")
+	})
+	@Select("""
+			select * from city
+			 where country_code = #{countryCode} 
+			""")
+	List<City> selectByCountryCode(@Param("countryCode") String countrycode);
 	
 	
 //	
